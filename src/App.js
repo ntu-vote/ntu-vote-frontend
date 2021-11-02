@@ -1,25 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import { Route } from 'react-router-dom';
+// import { useState, useEffect } from 'react';
+// import { generate, sign } from './component/key-utility';
+import SignInSide from './component/SignInSide';
+import SignUpSide from './component/SignUpSide';
+import Campaigns from './component/Campaigns';
+import VoteStation from './component/VoteStation';
 
-function App() {
+
+// const [generateKeys, setGenerateKeys] = useState("");
+// const [signedMessage, setSignedMessage] = useState("");
+
+// useEffect(() => {
+//   (async() => { 
+//     const newKeyPair = await generate(); 
+//     setGenerateKeys(newKeyPair);
+//     const newSignedMessage = await sign(newKeyPair);
+//     setSignedMessage(newSignedMessage);
+//   })()
+// }, []);
+
+
+export default function App(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <Router> 
+      <div className="App">
+        <Route path="/login" component={SignInSide} />
+        <Route path="/register" component={SignUpSide} />
+        <Route path="/voteStation" component={VoteStation} />
+        <Route path="/home" component={Campaigns} />
+      </div>
+    // </Router>
   );
 }
 
-export default App;
