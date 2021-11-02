@@ -24,7 +24,8 @@ export default function PrimaryCampaignCard(props) {
             >
             {/* Increase the priority of the hero background image */}
             {<img style={{ display: 'none' }} 
-                src="url(https://source.unsplash.com/random)"/>}
+                src="url(https://source.unsplash.com/random)"
+                alt="primary-campaign-img"/>}
             <Box
                 sx={{
                 position: 'absolute',

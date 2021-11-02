@@ -8,7 +8,7 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from './Copyright';
@@ -40,7 +40,7 @@ export default function SignUpSide() {
             sm={4}
             md={7}
             sx={{
-                backgroundImage: `url(https://source.unsplash.com/random)`,
+                backgroundImage: `url(${process.env.PUBLIC_URL}/background_clear.jpg)`,
                 backgroundRepeat: 'no-repeat',
                 backgroundColor: (t) =>
                 t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -58,8 +58,11 @@ export default function SignUpSide() {
                 alignItems: 'center',
                 }}
             >
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <LockOutlinedIcon />
+                <Avatar sx={{ m: 1 }}>
+                {/* <LockOutlinedIcon /> */}
+                    <img src={process.env.PUBLIC_URL + '/favicon-32x32.png'} 
+                        alt="sign-up-avatar-img"
+                    /> 
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     註冊
@@ -116,7 +119,7 @@ export default function SignUpSide() {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{ mt: 3, mb: 2}}
                 >
                     註冊
                 </Button>
@@ -125,7 +128,7 @@ export default function SignUpSide() {
                     </Grid>
                     <Grid item>
                     <Link href="/login" variant="body2">
-                        {"Already had an account? Sign In"}
+                        {"已經註冊過帳號了嗎? 登入"}
                     </Link>
                     </Grid>
                 </Grid>

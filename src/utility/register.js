@@ -25,7 +25,7 @@ export const register = async(username, password, display_name, real_name, stude
     });
     if (response.ok) {
         const jsonResponse = await response.json();
-        if (jsonResponse.status == "Success"){
+        if (jsonResponse.status === "Success"){
             return "success";
         }
         else{

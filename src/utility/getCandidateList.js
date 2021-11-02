@@ -14,7 +14,7 @@ export const getCandidateList = async(cpnId) => {
 
     if (response.ok) {
         const jsonResponse = await response.json();
-        if (jsonResponse.status == "Success"){
+        if (jsonResponse.status === "Success"){
             return jsonResponse.result; //an-object
         }
         else{

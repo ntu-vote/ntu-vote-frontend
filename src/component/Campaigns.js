@@ -282,7 +282,7 @@ export default function Campaigns() {
                           pt: '0%',
                           }}
                           image="https://source.unsplash.com/random"
-                          alt="random"
+                          alt="tertiary-campaign-img"
                       />
                       <CardContent sx={{ flexGrow: 1 }}>
                         <Typography component="h2" variant="h3">

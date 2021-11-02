@@ -14,7 +14,7 @@ export const getCampaignList = async() => {
 
     if (response.ok) {
         const jsonResponse = await response.json();
-        if (jsonResponse.status == "Success"){
+        if (jsonResponse.status === "Success"){
             return jsonResponse.result.campaigns; //an-array
         }
         else{

@@ -37,6 +37,7 @@ export default function SecondaryCampaignCard(props) {
               component="img"
               sx={{ width: 160, display: { xs: 'block', sm: 'block' } }}
               image="url(https://source.unsplash.com/random)"
+              alt="secondary-campaign-img"
             />
           </Card>
         </CardActionArea>

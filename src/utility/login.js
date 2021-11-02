@@ -13,7 +13,7 @@ export const login = async(username, password) => {
     });
     if (response.ok) {
         const jsonResponse = await response.json();
-        if (jsonResponse.status == "Success"){
+        if (jsonResponse.status === "Success"){
             localStorage.setItem("token", jsonResponse.token);
             localStorage.setItem("username", jsonResponse.username);
             localStorage.setItem("uid", jsonResponse.user_id);

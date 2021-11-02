@@ -10,7 +10,7 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from './Copyright';
@@ -41,7 +41,7 @@ export default function SignInSide() {
             sm={4}
             md={7}
             sx={{
-                backgroundImage: `url(https://source.unsplash.com/random)`,
+                backgroundImage: `url(${process.env.PUBLIC_URL}/background.jpg)`,
                 backgroundRepeat: 'no-repeat',
                 backgroundColor: (t) =>
                 t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -59,8 +59,11 @@ export default function SignInSide() {
                 alignItems: 'center',
                 }}
             >
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <LockOutlinedIcon />
+                <Avatar sx={{ m: 1}}>
+                {/* <LockOutlinedIcon /> */}
+                    <img src={process.env.PUBLIC_URL + '/favicon-32x32.png'} 
+                        alt="sign-in-avatar-img"
+                    /> 
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     登入
