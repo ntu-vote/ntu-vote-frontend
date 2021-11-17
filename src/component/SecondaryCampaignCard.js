@@ -8,8 +8,8 @@ import Typography from '@mui/material/Typography';
 
 
 export default function SecondaryCampaignCard(props) {
-    const { campaign } = props;
-    const redirectUri = "/voteStation?campaign="+ campaign.cpn_id;
+    const { campaign, showDuration, showResult } = props;
+    const redirectUri = "/voteStation?cpnId="+ campaign.cpnId;
     return (
       <Grid item xs={12} md={12}>
         <CardActionArea component="a" href={redirectUri}>
@@ -18,25 +18,21 @@ export default function SecondaryCampaignCard(props) {
               <Typography component="h2" variant="h3">
                 {campaign.title}
               </Typography>
-              <Typography variant="subtitle1" color="text.secondary">
-                {campaign.status}  {campaign.startTime}-{campaign.endTime}
-              </Typography>
               <Typography variant="h5" paragraph>
                 {campaign.description}
               </Typography>
-              ({campaign.status} === "ended") &&(
-              <Typography variant="h5" color="#D70040" paragraph>
-                  {campaign.result}
-              </Typography>
-              )
               <Typography variant="subtitle1" paragraph>
-                制度：{campaign.cpnr_id} {campaign.rule.rule} — {campaign.rule.description}
+                {/* 規則：{campaign.cpnr_id} {campaign.rule.rule} — {campaign.rule.description}<br/> */}
+                {showDuration(campaign)}
+              </Typography>
+              <Typography variant="subtitle1" color="#D70040" paragraph>
+                {showResult(campaign)}
               </Typography>
             </CardContent>
             <CardMedia
               component="img"
               sx={{ width: 160, display: { xs: 'block', sm: 'block' } }}
-              image="url(https://source.unsplash.com/random)"
+              image="https://source.unsplash.com/random"
               alt="secondary-campaign-img"
             />
           </Card>

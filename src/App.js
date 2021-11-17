@@ -21,7 +21,6 @@ import VoteStation from './component/VoteStation';
 //   })()
 // }, []);
 
-
 export default function App(){
   return (
     // <Router> 

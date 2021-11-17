@@ -1,4 +1,4 @@
-const base_url = '';
+const base_url = 'https://ntu-vote.ntu.im';
 
 //Unprotected
 export const getVoterKey = async() => {

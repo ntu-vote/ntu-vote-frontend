@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Fragment } from "react";
+import { Fragment, useCallback } from "react";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -9,10 +9,13 @@ import Typography from '@mui/material/Typography';
 
 
 export default function CandidateCard(props) {
-    const { candidate } = props;
-    const handleVote = (cid, name) =>{
+    const { candidate, live } = props;
+    
+    const handleVote = useCallback((cid, name) =>{
       alert(`Casting a ballot: ${cid} ${name}`);
-    }
+      }, [candidate]
+    )
+
     return (
       <Grid item xs={12} md={12}>
         <Card sx={{ display: 'flex' }} style={{backgroundColor: "#F8F8F8"}}>
@@ -22,28 +25,32 @@ export default function CandidateCard(props) {
             image="https://source.unsplash.com/random"
           />
           <CardContent sx={{ flex: 1 }}>
-            <Typography component="h2" variant="h3" gutterBottom>
+            
+            <Typography variant="h3" gutterBottom>
               {candidate.name}
             </Typography>
-            <Typography variant="subtitle1" align="center" color="text.secondary">
+
+            <Typography variant="h6" gutterBottom>
               {candidate.description}
             </Typography>
-            {candidate.polices.map((policy)=>(
+
+            {candidate.policies.map((policy, idx)=>(
               <Fragment>
-                <Typography variant="h5" paragraph inline align="left">
-                {policy.cpid} {policy.title}
+                <Typography variant="h5" paragraph inline align="left" paddingLeft="20px">
+                  {idx+1} {policy.title}
                 </Typography>
                 <Typography paragraph inline align="left">
                   {policy.description}
                 </Typography>
               </Fragment>
             ))}
-            <Typography variant="subtitle1" paragraph color="#D70040">
-              得票數：{candidate.votes}票
-            </Typography>
-            {/* <Typography variant="subtitle1" color="primary">
-              進入投票所
-            </Typography> */}
+
+            {live && (
+              <Typography variant="subtitle1" paragraph color="#D70040">
+                得票數：{candidate.ballots} 票
+              </Typography>
+            )}
+
             <Button variant="outline" size="large" 
               style={{ color: '#000000', border: "2px black solid" }}
               onClick={ () => { handleVote(candidate.cid, candidate.name); } }

@@ -1,7 +1,7 @@
 import { signMsg } from "./signMsg";
 import { generateRandomStr } from "./generateRandomStr";
 
-const base_url = '';
+const base_url = 'https://ntu-vote.ntu.im';
 
 //unprotected
 export const castBallot = async(cpnId, cid, password) => {
@@ -44,8 +44,8 @@ export const castBallot = async(cpnId, cid, password) => {
             return "fail";
         }
     }
-    catch (error) { //signMsg error
-        alert(error);
+    catch (e) { //signMsg error
+        alert("已達登入時間上限，為確保隱私安全，麻煩您在登入一次喔");
         return "fail";
     }
 }

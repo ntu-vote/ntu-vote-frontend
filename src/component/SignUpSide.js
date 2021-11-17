@@ -22,8 +22,8 @@ export default function SignUpSide() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const result = await register(data.get('username'), data.get('password'),
-    data.get('display_name'), data.get('real_name'),
-    data.get('student_id'));
+    data.get('displayName'), data.get('realName'),
+    data.get('studentId'));
     if(result === "success"){
         history.push("/login");
     }

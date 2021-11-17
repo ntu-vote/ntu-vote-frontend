@@ -1,5 +1,5 @@
 import { generateKey } from "./generateKey";
-const base_url = '';
+const base_url = 'https://ntu-vote.ntu.im';//http://220.135.59.14:80
 
 //unprotected
 export const register = async(username, password, display_name, real_name, student_id) => {
@@ -12,15 +12,15 @@ export const register = async(username, password, display_name, real_name, stude
         "display_name": display_name,               // string, display name
         "real_name": real_name,                     // string, real_name
         "student_id": student_id,                   // string, student id
-        "public_key": newKeyPair.privateKeyArmored, // string, public key
-        "private_key": newKeyPair.publicKeyArmored  // string, password-signed private key
+        "public_key": newKeyPair.publicKeyArmored, // string, public key
+        "private_key": newKeyPair.privateKeyArmored  // string, password-signed private key
     });
     const response = await fetch(endpoint, {
         method: "POST",
         body: data,
         headers: {
             "Accept": "application/json",
-            "Content-type": "application/json"
+            "Content-type": "application/json",
         }
     });
     if (response.ok) {

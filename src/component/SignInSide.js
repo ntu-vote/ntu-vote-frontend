@@ -21,14 +21,18 @@ const theme = createTheme();
 
 export default function SignInSide() {
   const history = useHistory();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const result = await login(data.get('username'),data.get('password'));
+    const result = await login(
+        data.get('username'),data.get('password')
+    );
+
     if ( result === "success"){
         history.push("/home");
     }
-};
+  };
 
   return (
     <header className="App-header">

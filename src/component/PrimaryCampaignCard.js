@@ -1,13 +1,15 @@
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import CardActionArea from '@mui/material/CardActionArea';
 
 export default function PrimaryCampaignCard(props) {
-    const { campaign } = props;
-    const redirectUri = "/voteStation?campaign="+ campaign.cpn_id;
+    const { campaign, showDuration, showResult } = props;
+    const redirectUri = "/voteStation?cpnId="+ campaign.cpnId;
+
     return (
         <CardActionArea component="a" href={redirectUri}>
             <Paper
@@ -22,7 +24,6 @@ export default function PrimaryCampaignCard(props) {
                 backgroundImage: `url(https://source.unsplash.com/random)`,
             }}
             >
-            {/* Increase the priority of the hero background image */}
             {<img style={{ display: 'none' }} 
                 src="url(https://source.unsplash.com/random)"
                 alt="primary-campaign-img"/>}
@@ -33,7 +34,7 @@ export default function PrimaryCampaignCard(props) {
                 bottom: 0,
                 right: 0,
                 left: 0,
-                backgroundColor: 'rgba(0,0,0,.3)',
+                backgroundColor: 'rgba(0,0,0,.3)'
                 }}
             />
             <Grid container>
@@ -42,29 +43,27 @@ export default function PrimaryCampaignCard(props) {
                     sx={{
                     position: 'relative',
                     p: { xs: 3, md: 6 },
-                    pr: { md: 0 },
+                    pr: { md: 0 }
                     }}
                 >
                     <Typography component="h1" variant="h3" color="inherit" gutterBottom>
                         {campaign.title}
                     </Typography>
-                    <Typography variant="subtitle1" color="text.secondary">
-                        {campaign.status}  {campaign.startTime}-{campaign.endTime}
-                    </Typography>
                     <Typography variant="h5" paragraph>
                         {campaign.description}
                     </Typography>
-                    ({campaign.status} === "ended") &&(
-                    <Typography variant="h5" color="#D70040" paragraph>
-                        {campaign.result}
-                    </Typography>
-                    )
                     <Typography variant="subtitle1" paragraph>
-                        制度：{campaign.cpnr_id} {campaign.rule.rule} — {campaign.rule.description}
+                        {/* 規則：{campaign.cpnr_id} {campaign.rule.rule} — {campaign.rule.description}<br/> */}
+                        {showDuration(campaign)}
                     </Typography>
-                    <Typography variant="h6" color="inherit" paragraph>
+                    <Typography variant="subtitle1" color="#D70040" paragraph>
+                        {showResult(campaign)}
+                    </Typography>
+                    <Button variant="contained" 
+                        style={{ background: '#000000' }}
+                    >
                         點我去投票
-                    </Typography>
+                    </Button>
                 </Box>
                 </Grid>
             </Grid>
