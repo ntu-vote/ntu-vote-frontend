@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 export default function CandidateCard(props) {
-    const { candidate, handleSelect, campaignStatus } = props;
+    const { candidate, live, handleSelect, campaignStatus } = props;
     return (
       <Grid item xs={12} md={12}>
         <Card sx={{ display: 'flex' }} style={{backgroundColor: "#F8F8F8"}}>
@@ -38,7 +38,7 @@ export default function CandidateCard(props) {
               </Fragment>
             ))}
 
-            {(live == 1) && (
+            {(live === 1) && (
               <Typography variant="subtitle1" paragraph color="#D70040">
                 得票數：{candidate.ballots} 票
               </Typography>
