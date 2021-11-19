@@ -3,7 +3,7 @@ const base_url = 'https://ntu-vote.ntu.im';
 //Protected
 export const getCandidateList = async(cpnId) => {
     const endpoint = base_url + "/api/campaign/" + cpnId;
-    console.log(endpoint);
+    console.log("get candidate list...");
     try{
         const response = await fetch(endpoint, {
             method: 'GET',
@@ -30,7 +30,7 @@ export const getCandidateList = async(cpnId) => {
         }
     }
     catch(e){
-        alert("xxx已達登入時間上限，為確保隱私安全，麻煩您在登入一次喔")
+        alert("vote station 已達登入時間上限，為確保隱私安全，麻煩您在登入一次喔")
         return "fail";
     }
 }

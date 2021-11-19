@@ -2,10 +2,7 @@ const base_url = "https://ntu-vote.ntu.im";
 
 //protected
 export const login = async(username, password) => {
-    console.log(username);
-    console.log(password);
     const endpoint = base_url + "/api/login";
-    console.log(endpoint);
     try{
 
         const response = await fetch(endpoint, {
@@ -19,9 +16,9 @@ export const login = async(username, password) => {
         if (response.ok) {
             const jsonResponse = await response.json();
             if (jsonResponse.status === "Success"){
-                localStorage.setItem("token", jsonResponse.token);
-                localStorage.setItem("username", jsonResponse.username);
-                localStorage.setItem("uid", jsonResponse.user_id);
+                localStorage.setItem("token", jsonResponse.params.token);
+                localStorage.setItem("username", jsonResponse.params.username);
+                localStorage.setItem("uid", jsonResponse.params.uid);
                 return "success"; //an-array
             }
             else{

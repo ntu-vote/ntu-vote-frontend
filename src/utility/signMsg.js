@@ -1,14 +1,14 @@
 import * as openpgp from 'openpgp';
 
-export const sign = async(keyPair, passphrase, aMessage) =>{ 
+export const signMsg = async(keyPair, passphrase, aMessage) =>{ 
     console.log('signing messages...');
     const _publicKey = await openpgp.readKey({
-      armoredKey: keyPair['publicKeyArmored'] 
+      armoredKey: keyPair.pubKey
     });
 
     const _privateKey = await openpgp.decryptKey({
         privateKey: await openpgp.readPrivateKey({
-          armoredKey: keyPair['privateKeyArmored']
+          armoredKey: keyPair.prvKey
         }),
         passphrase
     });
@@ -29,12 +29,11 @@ export const sign = async(keyPair, passphrase, aMessage) =>{
     });
 
     const { verified, keyID } = verificationResult.signatures[0];
-    console.log("signedMessage: ", signedMessage); // '-----BEGIN PGP SIGNED MESSAGE ... END PGP SIGNATURE-----'
     try {
         await verified; // throws on invalid signature
-        console.log('Signed by key id ' + keyID.toHex());
-        return(signedMessage);
+        return(cleartextMessage);
     } catch (e) {
+        console.log("sign by key id: ", keyID);
         throw new Error('Signature could not be verified: ' + e.message);
     }
 }

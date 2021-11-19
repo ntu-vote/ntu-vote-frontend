@@ -12,7 +12,7 @@ export default function Footer(){
           color="text.secondary"
           component="p"
         >
-          聯絡信箱：ntu-vote@gmail.com
+          測試版 Open Beta
         </Typography>
         <Copyright />
       </Box>

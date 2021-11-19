@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Fragment, useCallback } from "react";
+import { Fragment } from "react";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -7,14 +7,8 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-
 export default function CandidateCard(props) {
-    const { candidate, live } = props;
-    
-    const handleVote = useCallback((cid, name) =>{
-      alert(`Casting a ballot: ${cid} ${name}`);
-      }, [candidate]
-    )
+    const { candidate, live, handleSelect, campaignStatus } = props;
 
     return (
       <Grid item xs={12} md={12}>
@@ -36,10 +30,10 @@ export default function CandidateCard(props) {
 
             {candidate.policies.map((policy, idx)=>(
               <Fragment>
-                <Typography variant="h5" paragraph inline align="left" paddingLeft="20px">
+                <Typography variant="h5" paragraph inline="true" align="left" paddingLeft="20px">
                   {idx+1} {policy.title}
                 </Typography>
-                <Typography paragraph inline align="left">
+                <Typography paragraph inline="true" align="left">
                   {policy.description}
                 </Typography>
               </Fragment>
@@ -50,13 +44,14 @@ export default function CandidateCard(props) {
                 得票數：{candidate.ballots} 票
               </Typography>
             )}
-
-            <Button variant="outline" size="large" 
-              style={{ color: '#000000', border: "2px black solid" }}
-              onClick={ () => { handleVote(candidate.cid, candidate.name); } }
-            >
-              投票
-            </Button>
+            {(campaignStatus !== "ended") &&(
+              <Button variant="outline" size="large" 
+                style={{ color: '#000000', border: "2px black solid" }}
+                onClick={ () => { handleSelect(candidate); } }
+              >
+                投票
+              </Button>
+            )}
           </CardContent>
         </Card>
       </Grid>

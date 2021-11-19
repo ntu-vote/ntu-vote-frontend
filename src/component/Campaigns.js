@@ -1,22 +1,24 @@
 import * as React from 'react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from "react-router";
 import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import PrimaryCampaignCard from './PrimaryCampaignCard';
 import SecondaryCampaignCard from './SecondaryCampaignCard';
-import Card from '@mui/material/Card';
-import CardActionArea from '@mui/material/CardActionArea';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Footer from './Footer';
+import Header from './Header';
 import { getCampaignList } from '../utility/getCampaignList'; 
+// import PrimaryCampaignCard from './PrimaryCampaignCard';
+// import Card from '@mui/material/Card';
+// import CardActionArea from '@mui/material/CardActionArea';
+// import CardContent from '@mui/material/CardContent';
+// import CardMedia from '@mui/material/CardMedia';
 
 const theme = createTheme();
 
@@ -25,14 +27,14 @@ export default function Campaigns() {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  const showResult = useCallback((campaign) =>{
+  const showResult = (campaign) =>{
     if (campaign.status === "ended"){
       return(
           `最高得票數：${campaign.result} 票`
-      )}
-    }, []
-  )
-  const showDuration = useCallback((campaign) =>{
+      )
+    }
+  }
+  const showDuration = (campaign) =>{
     if (campaign.status === "ended"){
       return(
         "投票已結束"
@@ -42,14 +44,20 @@ export default function Campaigns() {
       return(
         `投票期限：${campaign.startTime.slice(0, -7)} 到 ${campaign.endTime.slice(0, -7)}`
       );
-    }},[campaignList]
-  );
+    }
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("uid");
+    history.push("/login");
+  };
 
   useEffect(() => {
     setLoading(true);
     (async() => { 
       const campaigns = await getCampaignList();
-      console.log(campaigns);
       if (campaigns === "fail"){
         history.push("/login")
       }
@@ -58,13 +66,11 @@ export default function Campaigns() {
       }
       setLoading(false);
     })()
-  }, []);
+  }, [history]);
 
   if (loading){
     return(
-      <Typography variant="h6" color="inherit" noWrap>
-        請稍等片刻 ○ ○ ○
-      </Typography>
+      ""
     );
   }
   if (campaignList.length === 0){
@@ -80,18 +86,28 @@ export default function Campaigns() {
       <CssBaseline />
       <AppBar position="relative" style={{ background: '#000000' }}>
         <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            NTU VOTE
-          </Typography>
+          <Grid container justifyContent="flex-start">
+            <Typography variant="h6" color="inherit" noWrap>
+              NTU VOTE
+            </Typography>
+          </Grid>
+          <Grid container justifyContent="flex-end">           
+            <Button variant="outlined" onClick={handleLogout}
+              style={{ color: '#ffffff', border: "2px white solid" }}
+            >
+              登出
+            </Button> 
+          </Grid>         
         </Toolbar>
       </AppBar>
       <main>
+        <Header/>
         {/* primary */}
-        <PrimaryCampaignCard
+        {/* <PrimaryCampaignCard
           campaign={campaignList[0]}
           showDuration={showDuration}
           showResult={showResult}
-        />
+        /> */}
         {/* header */}
         <Box
           sx={{
@@ -111,31 +127,14 @@ export default function Campaigns() {
               NTU VOTE <br/>台大專屬投票平台
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              擇你所愛，愛你所選！
+              擇你所愛，愛你所選！模擬公投火熱進行中！
             </Typography>
-            {/* <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={5}
-              justifyContent="center"
-            >
-              <Button variant="contained" href='./register' 
-                style={{ background: '#000000' }}
-              >
-                  好想趕快投票，點我去註冊！
-              </Button>
-              <Button variant="outlined" href='./login' 
-                style={{ color: '#000000', border: "2px black solid" }}
-              >
-                早就註冊好了，點我去登入！
-              </Button>
-            </Stack> */}
           </Container>
         </Box>
         {/* secondary */}
         <Container sx={{ py: 8 }}>
           <Grid container spacing={4}>
-            {campaignList.slice(1, 2).map((campaign) => (
+            {campaignList.slice(0).map((campaign) => (
               <SecondaryCampaignCard
                 key={campaign.cpn_id}
                 campaign={campaign}
@@ -145,10 +144,9 @@ export default function Campaigns() {
             ))}
           </Grid>
         </Container>
-        <Container sx={{ py: 8 }}>
-          {/* End hero unit */}
+        {/* <Container sx={{ py: 8 }}>
           <Grid container spacing={4}>
-          {campaignList.slice(3).map((campaign) => {
+          {campaignList.slice(1).map((campaign) => {
               const redirectUri = "/voteStation?cpnId="+ campaign.cpnId;
               return(
                 <Grid item key={campaign.title} xs={12} sm={6} md={4}>
@@ -166,17 +164,13 @@ export default function Campaigns() {
                           alt="tertiary-campaign-img"
                       />
                       <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography component="h2" variant="h3">
-                          {campaign.cpn_id} {campaign.title}
+                        <Typography component="h2" variant="h3" gutterBottom>
+                          {campaign.title}
                         </Typography>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          {campaign.status}  {campaign.startTime}-{campaign.endTime}
-                        </Typography>
-                        <Typography variant="h5" paragraph>
+                        <Typography variant="h5" paragraph sx={{ marginLeft: "40px", marginRight: "40px" }}>
                           {campaign.description}
                         </Typography>
                         <Typography variant="subtitle1" paragraph>
-                          {/* 規則：{campaign.cpnr_id} {campaign.rule.rule} — {campaign.rule.description} */}
                           {showDuration(campaign)}
                         </Typography>
                         <Typography variant="subtitle1" color="#D70040" paragraph>
@@ -189,7 +183,7 @@ export default function Campaigns() {
               )
           })}
           </Grid>
-        </Container>
+        </Container> */}
       </main>
       <Footer/>
     </ThemeProvider>

@@ -15,10 +15,10 @@ export default function SecondaryCampaignCard(props) {
         <CardActionArea component="a" href={redirectUri}>
           <Card sx={{ display: 'flex' }} style={{backgroundColor: "#F8F8F8"}}>
             <CardContent sx={{ flex: 1 }}>
-              <Typography component="h2" variant="h3">
+              <Typography component="h2" variant="h3" gutterBottom>
                 {campaign.title}
               </Typography>
-              <Typography variant="h5" paragraph>
+              <Typography variant="h5" paragraph sx={{ marginLeft: "40px", marginRight: "40px" }}>
                 {campaign.description}
               </Typography>
               <Typography variant="subtitle1" paragraph>

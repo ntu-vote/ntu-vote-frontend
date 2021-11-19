@@ -13,6 +13,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CandidateCard from './CandidateCard';
 import Footer from './Footer';
 import { getCandidateList } from '../utility/getCandidateList'
+import { castBallot } from '../utility/castBallot'
+import ConfirmationDialog from './ConfirmationDialog';
+import VeriDialog from './VeriDialog';
+
 const theme = createTheme();
 
 export default function VoteStation(props) {
@@ -21,6 +25,12 @@ export default function VoteStation(props) {
   const [campaign, setCampaign] = useState(null);
   const [candidateList, setCandidateList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDialogLoading, setIsDialogLoading] = useState(false);
+  const [isVeriDialogOpen, setIsVeriDialogOpen] = useState(false);
+  const [veriStr, setVeriStr] = useState(false);
+  const [selectedCandidate, setSelectedCandidate] = useState({name:"default"});
+
   const history = useHistory();
 
   const showResult = useCallback((campaign) =>{
@@ -41,16 +51,60 @@ export default function VoteStation(props) {
       return(
         `投票期限：${campaign.startTime.slice(0, -7)} 到 ${campaign.endTime.slice(0, -7)}`
       );
-    }},[campaign]
+    }},[]
   );
 
+  const handleSelect = useCallback((candidate) =>{
+    setIsDialogOpen(true);
+    setSelectedCandidate(candidate);
+    }, [setIsDialogOpen, setSelectedCandidate]
+  );
+
+  
+  const closeDialog = useCallback(() => {
+    setIsDialogOpen(false);
+    setIsDialogLoading(false);
+  }, [setIsDialogOpen, setIsDialogLoading]
+  );
+
+  const closeVeriDialog = useCallback(() => {
+    setIsVeriDialogOpen(false);
+  }, []
+  );
+  
+  const handleCastBallot = useCallback((password) =>{
+    (async() => {
+      setIsDialogLoading(true);
+      const veriStr = await castBallot(campaign.cpnId, selectedCandidate.cid, password);
+      closeDialog();
+      if(veriStr === "fail"){
+        alert("投票失敗");
+      }
+      else if(veriStr === "expired"){
+        history.push("/login");
+      }
+      else{
+        alert("投票成功!");
+        setVeriStr(veriStr);
+        setIsVeriDialogOpen(true);
+      }
+    })()
+    }, [selectedCandidate, closeDialog]
+  );
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("uid");
+    history.push("/login");
+  };
+  
   useEffect(() => {
     (async() => { 
       setLoading(true);
       const result = await getCandidateList(cpnId);
-      console.log(result);
       if (result === "fail"){
-        history.push("/home");
+        history.push("/login");
       }
       else{
         let {candidates, ...campaignInfo} = result.campaign;
@@ -59,13 +113,11 @@ export default function VoteStation(props) {
       }
       setLoading(false);
     })()
-  }, [cpnId]);
+  }, [cpnId, history]);
 
   if (loading){
     return(
-      <Typography variant="h6" color="inherit" noWrap>
-        請稍等片刻 ○ ○ ○
-      </Typography>
+      ""
     );
   }
 
@@ -82,14 +134,29 @@ export default function VoteStation(props) {
       <CssBaseline />
       <AppBar position="relative" style={{ background: '#000000' }}>
         <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            NTU VOTE
-          </Typography>
-          <Button variant="outlined" href='./home' 
-            style={{ color: '#ffffff', border: "2px white solid", marginLeft: "20px" }}
-          >
-            回到活動列表
-          </Button>
+          <Grid container justifyContent="flex-start">
+            <Typography variant="h6" color="inherit" noWrap>
+              NTU VOTE
+            </Typography>
+          </Grid>
+          <Grid container justifyContent="flex-end">
+            <Button variant="outlined" href='./home' 
+              style={{ color: '#ffffff', border: "2px white solid", marginRight: "10px" }}
+            >
+              回到活動列表
+            </Button>
+            <Button variant="outlined"
+              onClick={()=>{window.location.reload();}}
+              style={{ color: '#ffffff', border: "2px white solid", marginRight: "10px" }}
+            >
+              重整頁面
+            </Button>
+            <Button variant="outlined" onClick={handleLogout}
+              style={{ color: '#ffffff', border: "2px white solid" }}
+            >
+              登出
+            </Button> 
+          </Grid>         
         </Toolbar>
       </AppBar>
       <main>
@@ -104,12 +171,12 @@ export default function VoteStation(props) {
           <Container maxWidth="sm">
             <Typography
               component="h1"
-              variant="h2"
+              variant="h4"
               align="center"
               color="text.primary"
               gutterBottom
             >
-              投票場次： {campaign.cpnId} {campaign.title}
+              投票活動編號： {campaign.cpnId}<br/>{campaign.title}
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
               {campaign.description}
@@ -127,10 +194,30 @@ export default function VoteStation(props) {
         <Container sx={{ py: 8 }}>
             <Grid container spacing={4}>
                 {candidateList.map((candidate) => (
-                    <CandidateCard key={candidate.cid} candidate={candidate} live={campaign.rule.live}/>
+                    <CandidateCard
+                      key={candidate.cid}
+                      candidate={candidate}
+                      live={campaign.rule.live}
+                      handleSelect={handleSelect}
+                      campaignStatus={campaign.status}
+                    />
                 ))}
             </Grid>
         </Container>
+        <ConfirmationDialog
+          open={isDialogOpen}
+          name={selectedCandidate.name}
+          onClose={closeDialog}
+          loading={isDialogLoading}
+          onConfirm={handleCastBallot}
+        />
+        <VeriDialog
+          open={isVeriDialogOpen}
+          content="上方為您的隨機驗證碼，由於此平台使用匿名投票，往後若您需驗票，請記下此組隨機驗證碼並聯絡我們。為了您的隱私，請勿將此組密碼告訴他人"
+          title={veriStr}
+          onClose={closeVeriDialog}
+          action="我知道了"
+        />
       </main>
       <Footer/>
     </ThemeProvider>

@@ -3,7 +3,7 @@ const base_url = 'https://ntu-vote.ntu.im';
 //Protected
 export const getCampaignList = async() => {
     const endpoint = base_url + "/api/campaign";
-
+    console.log("get campaign list...");
     try{
         const response = await fetch(endpoint, {
             method: 'GET',
@@ -29,7 +29,7 @@ export const getCampaignList = async() => {
         }
     }
     catch(e){
-        alert("yyy已達登入時間上限，為確保隱私安全，麻煩您在登入一次喔")
+        alert("home page 已達登入時間上限，為確保隱私安全，麻煩您在登入一次喔")
         return "fail";
     }
 }
