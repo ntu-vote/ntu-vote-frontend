@@ -23,13 +23,12 @@ export default function SignUpSide() {
     const data = new FormData(event.currentTarget);
 
     //test student id format
-    const validStudentId = /^[a-z]{1}[0-9]{8}$/;
+    const validStudentId = /^[a-z]{1}[0-9]{2}[A-B0-9]{1}[0-9]{5}$/;
     const isvalidStudentId = validStudentId.test(data.get('studentId'));
     if(!isvalidStudentId){
         alert("學號格式不符");
         return;  
     }
-
     //test username format
     const validUsername = /^[A-Za-z0-9]+$/;
     const isValidUsername = validUsername.test(data.get('username'));

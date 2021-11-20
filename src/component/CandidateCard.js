@@ -38,7 +38,7 @@ export default function CandidateCard(props) {
               </Fragment>
             ))}
 
-            {(live === 1) && (
+            {(live === 1) || (campaignStatus === "ended") && (
               <Typography variant="subtitle1" paragraph color="#D70040">
                 得票數：{candidate.ballots} 票
               </Typography>
