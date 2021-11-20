@@ -1,8 +1,7 @@
-const base_url = "https://ntu-vote.ntu.im";
-
 //protected
-export const login = async(username, password) => {
-    const endpoint = base_url + "/api/login";
+export const login = async (username, password) => {
+    console.log(process.env.REACT_APP_PUBLIC_URL)
+    const endpoint = process.env.REACT_APP_PUBLIC_URL + "/api/login";
     try{
 
         const response = await fetch(endpoint, {

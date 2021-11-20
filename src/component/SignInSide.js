@@ -45,7 +45,7 @@ export default function SignInSide() {
             sm={4}
             md={7}
             sx={{
-                backgroundImage: `url(${process.env.PUBLIC_URL}/background.jpg)`,
+                backgroundImage: `url(${process.env.REACT_APP_PUBLIC_URL}/background.jpg)`,
                 backgroundRepeat: 'no-repeat',
                 backgroundColor: (t) =>
                 t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -65,7 +65,7 @@ export default function SignInSide() {
             >
                 <Avatar sx={{ m: 1}}>
                 {/* <LockOutlinedIcon /> */}
-                    <img src={process.env.PUBLIC_URL + '/favicon-32x32.png'} 
+                    <img src={process.env.REACT_APP_PUBLIC_URL + '/favicon-32x32.png'} 
                         alt="sign-in-avatar-img"
                     /> 
                 </Avatar>

@@ -1,8 +1,7 @@
-const base_url = 'https://ntu-vote.ntu.im';
 
 //Protected
 export const getCampaignList = async() => {
-    const endpoint = base_url + "/api/campaign";
+    const endpoint = process.env.REACT_APP_PUBLIC_URL + "/api/campaign";
     console.log("get campaign list...");
     try{
         const response = await fetch(endpoint, {

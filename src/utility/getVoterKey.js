@@ -1,11 +1,10 @@
-const base_url = 'https://ntu-vote.ntu.im';
 
 //Unprotected
 export const getVoterKey = async() => {
     console.log("get voter keys...");
 
     try{
-        const endpoint = base_url + "/api/ballot/key";
+        const endpoint = process.env.REACT_APP_PUBLIC_URL + "/api/ballot/key";
         const response = await fetch(endpoint, {
             method: 'GET',
             headers: {

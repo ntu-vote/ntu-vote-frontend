@@ -1,11 +1,10 @@
 import { generateKey } from "./generateKey";
-const base_url = 'https://ntu-vote.ntu.im';//http://220.135.59.14:80
 
 //unprotected
 export const register = async(username, password, display_name, real_name, student_id) => {
     const aEmail = student_id + "@ntu.edu.tw";
     const newKeyPair = await generateKey(password, username, aEmail);
-    const endpoint = base_url + "/api/register";
+    const endpoint = process.env.REACT_APP_PUBLIC_URL + "/api/register";
     const data = JSON.stringify({
         "username": username,                       // string, username
         "password": password,                       // string, password

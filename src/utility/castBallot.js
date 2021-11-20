@@ -2,7 +2,6 @@ import { signMsg } from "./signMsg";
 import { generateRandomStr } from "./generateRandomStr";
 import { getVoterKey } from "./getVoterKey";
 
-const base_url = 'https://ntu-vote.ntu.im';
 
 //unprotected
 export const castBallot = async(cpnId, cid, password) => {
@@ -14,7 +13,7 @@ export const castBallot = async(cpnId, cid, password) => {
         const ballotMsg = `BALLOT:${veriStr}:${cpnId}:${cid}`;
         const votedProof = await signMsg(keyPair, password, votedMsg);
         const ballotProof = await signMsg(keyPair, password, ballotMsg);
-        const endpoint = base_url + "/api/ballot/cast";
+        const endpoint = process.env.REACT_APP_PUBLIC_URL + "/api/ballot/cast";
         const data = JSON.stringify(	{
             "cpnId": cpnId,            // number, campaign id
             "cid": cid,                // number, candidate id
