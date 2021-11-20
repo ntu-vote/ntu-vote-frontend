@@ -36,7 +36,7 @@ export default function VoteStation(props) {
   const showResult = useCallback((campaign) =>{
     if (campaign.status === "ended"){
       return(
-          `最高得票數：${campaign.result} 票`
+          `投票結果：${campaign.result} 獲得最高票`
       )}
     }, []
   )

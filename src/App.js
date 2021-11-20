@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 // import { useState, useEffect } from 'react';
 // import { generate, sign } from './component/key-utility';
 import SignInSide from './component/SignInSide';
@@ -29,6 +29,9 @@ export default function App(){
         <Route path="/register" component={SignUpSide} />
         <Route path="/voteStation" component={VoteStation} />
         <Route path="/home" component={Campaigns} />
+        <Route exact path="/">
+          <Redirect to="/login" />
+        </Route>
       </div>
     // </Router>
   );
