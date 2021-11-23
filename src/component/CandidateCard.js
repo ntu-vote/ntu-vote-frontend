@@ -14,7 +14,7 @@ export default function CandidateCard(props) {
         <Card sx={{ display: 'flex' }} style={{backgroundColor: "#F8F8F8"}}>
           <CardMedia
             component="img"
-            sx={{ width: 160, display: { xs: 'block', sm: 'block' } }}
+            sx={{ width: 160, display: { xs: 'none', sm: 'block', md: 'block' } }}
             image="https://source.unsplash.com/random"
           />
           <CardContent sx={{ flex: 1 }}>
@@ -38,7 +38,7 @@ export default function CandidateCard(props) {
               </Fragment>
             ))}
 
-            {(live === 1) || (campaignStatus === "ended") && (
+            {((live === 1) || (campaignStatus === "ended")) && (
               <Typography variant="subtitle1" paragraph color="#D70040">
                 得票數：{candidate.ballots} 票
               </Typography>

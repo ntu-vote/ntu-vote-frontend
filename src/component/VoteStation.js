@@ -99,6 +99,8 @@ export default function VoteStation(props) {
     history.push("/login");
   };
   
+  const candidateId = c => c.cid;
+
   useEffect(() => {
     (async() => { 
       setLoading(true);
@@ -109,6 +111,19 @@ export default function VoteStation(props) {
       else{
         let {candidates, ...campaignInfo} = result.campaign;
         setCampaign(campaignInfo);
+        candidates.sort((a, b)=>{
+          const idA = candidateId(a);
+          const idB = candidateId(b);
+          if (idA < idB){
+            return -1;
+          }
+          else if(idA > idB){
+            return 1;
+          }
+          else{
+            return 0;
+          }
+        })
         setCandidateList(candidates);
       }
       setLoading(false);
@@ -146,6 +161,7 @@ export default function VoteStation(props) {
               回到活動列表
             </Button>
             <Button variant="outlined"
+              sx={{display:{ xs: "none", sm: "block", md: "block", lg: "block"}}}
               onClick={()=>{window.location.reload();}}
               style={{ color: '#ffffff', border: "2px white solid", marginRight: "10px" }}
             >
@@ -213,10 +229,10 @@ export default function VoteStation(props) {
         />
         <VeriDialog
           open={isVeriDialogOpen}
-          content="上方為您的隨機驗證碼，由於此平台使用匿名投票，往後若您需驗票，請記下此組隨機驗證碼並聯絡我們。為了您的隱私，請勿將此組密碼告訴他人"
+          content="上方為您的隨機驗證碼，由於此平台使用匿名投票，往後若您需驗票，請記下此組隨機驗證碼，平台不會為您留存。為了您的隱私，也請勿將此組密碼告訴他人"
           title={veriStr}
           onClose={closeVeriDialog}
-          action="我知道了"
+          action="我已記下"
         />
       </main>
       <Footer/>
